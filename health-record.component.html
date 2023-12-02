@@ -1,0 +1,217 @@
+<div class="container sm:absolute sm:inset-0 ">
+    <div class="sidebar dark bg-gray-900">
+        <div class="sidebar-header">
+            <h2>@ ERH Safe</h2>
+        </div>
+        <ul class="sidebar-list">
+            <li><a href="#" class="sidebar-link ">Health Records</a></li>
+            <li><a href="#" class="sidebar-link">Perscription</a></li>
+            <li><a href="#" class="sidebar-link">Investigation</a></li>
+        </ul>
+    </div>
+
+    <div class=" flex flex-col flex-auto min-w-0 sm:overflow-hidden bg-card">
+        <!-- Header -->
+        <div class="w-full" style="border: 2px solid transparent;
+                box-shadow: inset 0px 0px 8px 0px rgba(0, 0, 0, 0.34);">
+            <div class="flex flex-row items-center px-6 h-20 min-h-20">
+                <div class="ml-3 text-2xl font-semibold tracking-tight">
+                    <span style="color: black;">Health Records</span>
+                </div>
+            </div>
+        </div>
+        <!-- Filter's -->
+        <div class="flex flex-col py-1 pl-0	" style="background-color: #dcdcdc2e">
+            <div class="flex flex-col w-full">
+                <ng-container>
+                    <div class="relative flex flex-col flex-auto items-center px-3">
+                        <div class="w-full">
+                            <form #myform="ngForm">
+                                <div class="mt-2">
+                                    <mat-grid-list gutterSize="16px" [cols]="isScreenSmall ? 2 : 4" rowHeight="80px">
+                                        <mat-grid-tile [colspan]="1" *ngIf="isScreenSmall == false">
+                                        </mat-grid-tile>
+
+                                        <mat-grid-tile [colspan]="1" *ngIf="isScreenSmall == false">
+                                        </mat-grid-tile>
+
+                                        <mat-grid-tile [colspan]="isScreenSmall ? 1 : 1">
+                                            <mat-form-field class="fuse-mat-dense fuse-mat-rounded"
+                                                [subscriptSizing]="'dynamic'">
+                                                <mat-icon class="icon-size-5" matPrefix
+                                                    [svgIcon]="'heroicons_solid:search'"></mat-icon>
+                                                <input matInput [(ngModel)]="searchText" name="searchText"
+                                                    [placeholder]="'Search...'" />
+                                            </mat-form-field>
+                                        </mat-grid-tile>
+
+                                        <mat-grid-tile [colspan]="isScreenSmall ? 1 : 1">
+                                            <div class="aa">
+                                                <mat-form-field class="fuse-mat-dense fuse-mat-rounded "
+                                                    [subscriptSizing]="'dynamic'">
+                                                    <mat-select [placeholder]="'Sort by'" name="sortOption">
+                                                        <mat-option value="asc">Date</mat-option>
+                                                    </mat-select>
+
+                                                </mat-form-field>
+                                            </div>
+                                        </mat-grid-tile>
+
+
+                                    </mat-grid-list>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+
+        <!-- Main -->
+        <div class="flex flex-auto overflow-hidden" style="background-color: #dcdcdc2e">
+            <div class="flex flex-col flex-auto sm:mb-18 overflow-hidden sm:overflow-y-auto">
+                <ng-container>
+                    <div class="overflow-x-auto mx-3">
+                        <form #myform="ngForm">
+                            <div style="width: 100%; display: flex;">
+                                <div style="width: 30%; padding: 20px;">
+                                    <mat-grid-list gutterSize="16px" [cols]="isScreenSmall ? 1 : 1" rowHeight="300px">
+                                        <ng-container>
+                                            <mat-grid-tile [colspan]="1"
+                                                class="mat-elevation-z4 overflow-hidden box-shadow mt-4"
+                                                style="border-collapse: collapse; border-radius: 30px;">
+                                                <mat-card class="border border-b-0"
+                                                    style="height: 100%; overflow: hidden; width: 100% !important; padding: 10px;">
+                                                    <mat-card-content class="mat-mdc"
+                                                        style="padding: 4px; margin: 4px; display: flex; flex-direction: column; justify-content: center;">
+                                                        <mat-grid-list [cols]="1" rowHeight="60px"
+                                                            style=" overflow: hidden;">
+                                                            <mat-grid-tile [colspan]="1" class="p-2 text-xl font-normal"
+                                                                style="width: 100%;">
+                                                                <mat-form-field style="width: 100%;"
+                                                                    class="fuse-mat-dense fuse-mat-rounded "
+                                                                    [subscriptSizing]="'dynamic'">
+                                                                    <mat-icon class="icon-size-5" matPrefix
+                                                                        [svgIcon]="'heroicons_solid:search'"></mat-icon>
+                                                                    <input matInput [(ngModel)]="searchname"
+                                                                        name="searchname"
+                                                                        [placeholder]="'Search by name'" />
+                                                                </mat-form-field>
+                                                            </mat-grid-tile>
+                                                            <mat-grid-tile [colspan]="1" class="p-2 text-xl font-normal"
+                                                                *ngFor="let data of searchpatientname">
+                                                                <div style="width: 100% ;">
+                                                                    <button mat-raised-button
+                                                                        [style.background-color]="isSelected(data.name) ? 'blue' : 'gainsboro'"
+                                                                        [style.color]="isSelected(data.name) ? 'white' : 'black'"
+                                                                        (click)="showHealthDetails(data.name)"
+                                                                        style="width: 100%">
+                                                                        {{data.name}}
+                                                                    </button>
+                                                                </div>
+                                                            </mat-grid-tile>
+                                                        </mat-grid-list>
+                                                    </mat-card-content>
+                                                    <div class="p-8 text-center"
+                                                        style="font-weight: 400; font-size: 20px;"
+                                                        *ngIf="searchpatientname && searchpatientname.length == 0">
+                                                        No Patient Found!
+                                                    </div>
+                                                </mat-card>
+                                            </mat-grid-tile>
+                                        </ng-container>
+                                    </mat-grid-list>
+
+
+                                </div>
+                                <div style="width:70%; padding: 20px; ">
+                                    <mat-grid-list gutterSize="16px" [cols]="isScreenSmall ? 1 : 1" rowHeight="170px">
+                                        <div *ngIf="pagedCardData.length > 0; ">
+
+                                            <ng-container *ngFor="let data of pagedCardData">
+
+                                                <mat-grid-tile [colspan]="1"
+                                                    class="mat-elevation-z4 overflow-hidden box-shadow mt-4"
+                                                    style="border-collapse: collapse; border-radius: 30px;">
+                                                    <mat-card class="border border-b-0"
+                                                        style="height: 100%; overflow: hidden; width: 100% !important;">
+                                                        <mat-card-content class="mat-mdc"
+                                                            style="padding: 4px; margin: 4px; display: flex; flex-direction: column; justify-content: center;">
+                                                            <mat-grid-list [cols]="6" rowHeight="37px"
+                                                                style="border: 1px solid transparent; overflow: hidden;">
+                                                                <mat-grid-tile [colspan]="4" class="p-2  font-normal">
+                                                                    <span class="p-2  font-normal"
+                                                                        style="width: 100%;font-size: 17px; font-weight: 600;">
+                                                                        {{data.symptom}}
+                                                                    </span>
+                                                                </mat-grid-tile>
+                                                                <mat-grid-tile [colspan]="2" class="p-2 font-normal">
+                                                                    <span
+                                                                        class="p-2 font-normal font-size: 17px; font-weight: 600; date"
+                                                                        style="width: 100%;">
+                                                                        {{data.date}}
+                                                                    </span>
+                                                                </mat-grid-tile>
+                                                                <mat-grid-tile [colspan]="6">
+                                                                    <span style="width: 100%;"
+                                                                        class="flex items-center p-2">
+                                                                        Updated By:
+                                                                        <h4 class="p-1">{{data.updatedBy}}</h4>
+                                                                    </span>
+                                                                </mat-grid-tile>
+                                                                <mat-grid-tile [colspan]="6" class="p-2">
+                                                                    <span class="p-2" style="width: 100%;">
+                                                                        {{data.description}}
+                                                                    </span>
+                                                                </mat-grid-tile>
+
+                                                            </mat-grid-list>
+                                                        </mat-card-content>
+                                                    </mat-card>
+                                                </mat-grid-tile>
+
+
+                                            </ng-container>
+                                        </div>
+
+                                        <div class="p-8 sm:p-16 text-4xl font-semibold tracking-tight text-center"
+                                            *ngIf="pagedCardData && pagedCardData.length == 0">
+                                            No Data Found!
+                                        </div>
+                                    </mat-grid-list>
+
+
+                                    <div class="pagination-controls">
+                                        <nav aria-label="Page navigation">
+                                            <ul class="pagination">
+                                                <li class="page-item" [class.disabled]="currentPage === 1">
+                                                    <button class="page-link" (click)="prevPage()" aria-label="Previous"
+                                                        [disabled]="currentPage === 1">
+                                                        <span aria-hidden="true">&laquo;</span>
+                                                    </button>
+                                                </li>
+                                                <li class="page-item">
+                                                    <span class="page-link">{{ currentPage }} / {{ totalPages }}</span>
+                                                </li>
+                                                <li class="page-item" [class.disabled]="currentPage === totalPages">
+                                                    <button class="page-link" (click)="nextPage()" aria-label="Next"
+                                                        [disabled]="currentPage === totalPages">
+                                                        <span aria-hidden="true">&raquo;</span>
+                                                    </button>
+                                                </li>
+                                            </ul>
+                                        </nav>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+
+
+                </ng-container>
+
+            </div>
+        </div>
+    </div>
+</div>
